@@ -1,12 +1,23 @@
 import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+import Menu from "./components/Menu";
+import About from "./components/About";
+import Contact from "./components/Contact";
+import Testimonials from "./components/Testimonials";
+import Footer from "./components/Footer";
+import WhatsAppButton from "./components/WhatsAppButton";
 
 function App() {
   return (
     <div className="bg-offwhite min-h-screen">
       <Navbar />
-      <div className="p-10 text-center text-coffee">
-        <h2 className="text-3xl font-semibold">More sections coming Day 3 ☕</h2>
-      </div>
+      <Hero />
+      <Menu />
+      <About />
+      <Testimonials />
+      <Contact />
+      <Footer />
+      <WhatsAppButton />
     </div>
   );
 }
