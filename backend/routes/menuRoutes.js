@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const MenuItem = require("../models/MenuItem");
 
-// GET all menu items
 router.get("/", async (req, res) => {
   try {
     const items = await MenuItem.find();
@@ -12,7 +11,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-// POST a new menu item (we'll use this once, manually, to seed data)
 router.post("/", async (req, res) => {
   try {
     const newItem = new MenuItem(req.body);
