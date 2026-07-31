@@ -19,7 +19,7 @@ function Menu() {
 
   const handleImageError = (e) => {
     e.target.src =
-      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=800&q=80";
+      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=500&q=60";
   };
 
   return (
@@ -47,12 +47,16 @@ function Menu() {
                   className="bg-cream rounded-xl p-5 shadow-md border border-latte cursor-pointer hover:shadow-xl hover:-translate-y-1 transition"
                 >
                   {item.image && (
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      onError={handleImageError}
-                      className="w-full h-36 object-cover rounded-lg mb-3"
-                    />
+                    <div className="w-full h-36 mb-3 rounded-lg bg-latte/50 animate-pulse overflow-hidden">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        loading="lazy"
+                        onError={handleImageError}
+                        onLoad={(e) => e.target.parentElement.classList.remove("animate-pulse", "bg-latte/50")}
+                        className="w-full h-36 object-cover rounded-lg"
+                      />
+                    </div>
                   )}
                   <div className="flex justify-between items-center mb-1">
                     <h4 className="text-lg font-semibold text-espresso">{item.name}</h4>
