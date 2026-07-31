@@ -5,17 +5,15 @@ function Menu() {
   const [items, setItems] = useState([]);
   const [selected, setSelected] = useState(null);
 
-  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
-
   useEffect(() => {
-    fetch(`${API_URL}/api/menu`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/menu`)
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
         return res.json();
       })
       .then((data) => setItems(data))
       .catch((err) => console.error("Failed to load menu:", err));
-  }, [API_URL]);
+  }, []);
 
   const categories = ["Coffee", "Pastries", "Breakfast"];
 

@@ -19,7 +19,11 @@ const subscribeRoutes = require("./routes/subscribeRoutes");
 const app = express();
 
 // 6. Global Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://future-fs-03.vercel.app"],
+  })
+);
 app.use(express.json());
 
 // 7. API Routes
