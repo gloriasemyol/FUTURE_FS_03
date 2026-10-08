@@ -1,6 +1,33 @@
 import { useEffect, useState } from "react";
 import Modal from "./Modal";
 
+const FALLBACK_IMAGE =
+  "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=500&q=60";
+
+// Images are kept here too, so they show even if the database has no image field
+const itemImages = {
+  "Cappuccino": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=500&q=60",
+  "Cold Brew": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=500&q=60",
+  "Caramel Macchiato": "https://images.unsplash.com/photo-1485808191679-5f86510681a2?auto=format&fit=crop&w=500&q=60",
+  "Flat White": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=500&q=60",
+  "Mocha": "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=500&q=60",
+  "Hazelnut Latte": "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=500&q=60",
+  "Butter Croissant": "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=500&q=60",
+  "Blueberry Muffin": "https://images.unsplash.com/photo-1607958996333-41aef7caefaa?auto=format&fit=crop&w=500&q=60",
+  "Cinnamon Roll": "https://images.unsplash.com/photo-1509365465985-25d11c17e812?auto=format&fit=crop&w=500&q=60",
+  "Chocolate Danish": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=500&q=60",
+  "Almond Biscotti": "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=500&q=60",
+  "Red Velvet Cupcake": "https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?auto=format&fit=crop&w=500&q=60",
+  "Avocado Toast": "https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?auto=format&fit=crop&w=500&q=60",
+  "Classic Omelette": "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=500&q=60",
+  "Belgian Waffles": "https://images.unsplash.com/photo-1562376552-0d160a2f238d?auto=format&fit=crop&w=500&q=60",
+  "Granola Bowl": "https://images.unsplash.com/photo-1517673400267-0251440c45dc?auto=format&fit=crop&w=500&q=60",
+  "Eggs Benedict": "https://images.unsplash.com/photo-1608039755401-742074f0548d?auto=format&fit=crop&w=500&q=60",
+  "French Toast": "https://images.unsplash.com/photo-1484723091739-30a097e8f929?auto=format&fit=crop&w=500&q=60",
+};
+
+const getImage = (item) => item.image || itemImages[item.name] || FALLBACK_IMAGE;
+
 function Menu() {
   const [items, setItems] = useState([]);
   const [selected, setSelected] = useState(null);
@@ -17,9 +44,11 @@ function Menu() {
 
   const categories = ["Coffee", "Pastries", "Breakfast"];
 
+  // Falls back once only, so a broken fallback can never loop forever
   const handleImageError = (e) => {
-    e.target.src =
-      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=500&q=60";
+    if (e.target.dataset.fallbackUsed) return;
+    e.target.dataset.fallbackUsed = "true";
+    e.target.src = FALLBACK_IMAGE;
   };
 
   return (
@@ -46,18 +75,15 @@ function Menu() {
                   onClick={() => setSelected(item)}
                   className="bg-cream rounded-xl p-5 shadow-md border border-latte cursor-pointer hover:shadow-xl hover:-translate-y-1 transition"
                 >
-                  {item.image && (
-                    <div className="w-full h-36 mb-3 rounded-lg bg-latte/50 animate-pulse overflow-hidden">
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        loading="lazy"
-                        onError={handleImageError}
-                        onLoad={(e) => e.target.parentElement.classList.remove("animate-pulse", "bg-latte/50")}
-                        className="w-full h-36 object-cover rounded-lg"
-                      />
-                    </div>
-                  )}
+                  <div className="w-full h-36 mb-3 rounded-lg bg-latte/50 overflow-hidden">
+                    <img
+                      src={getImage(item)}
+                      alt={item.name}
+                      loading="eager"
+                      onError={handleImageError}
+                      className="w-full h-36 object-cover rounded-lg"
+                    />
+                  </div>
                   <div className="flex justify-between items-center mb-1">
                     <h4 className="text-lg font-semibold text-espresso">{item.name}</h4>
                     <span className="text-coffee font-bold">₹{item.price}</span>
@@ -85,7 +111,7 @@ function Menu() {
       {selected && (
         <Modal onClose={() => setSelected(null)}>
           <img
-            src={selected.image}
+            src={getImage(selected)}
             alt={selected.name}
             onError={handleImageError}
             className="w-full h-64 object-cover rounded-t-2xl"

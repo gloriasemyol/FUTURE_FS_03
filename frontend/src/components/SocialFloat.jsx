@@ -17,15 +17,15 @@ const socials = [
     icon: Mail,
     description:
       "Subscribe via email to get our monthly newsletter with new menu items, café events, and seasonal specials.",
-    action: "mailto:hello@espressovoila.com",
+    action: "https://mail.google.com/mail/?view=cm&fs=1&to=gloriasemyol@gmail.com&su=Hello%20Espresso%20Voila",
   },
   {
     id: "linkedin",
     label: "LinkedIn",
     icon: Share2,
     description:
-      "Follow Espresso Voila on LinkedIn to see our journey, behind-the-scenes moments, and community events.",
-    action: "https://linkedin.com",
+      "Follow us on LinkedIn to see our journey, behind-the-scenes moments, and community events.",
+    action: "https://www.linkedin.com/in/gloriasemyol/",
   },
   {
     id: "sms",
